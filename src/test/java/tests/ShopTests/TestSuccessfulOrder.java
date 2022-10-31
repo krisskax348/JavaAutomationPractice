@@ -1,5 +1,6 @@
 package tests.ShopTests;
 
+import com.beust.ah.A;
 import dev.failsafe.internal.util.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import tests.BaseTest;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestSuccessfulOrder extends BaseTest {
@@ -36,13 +38,17 @@ public class TestSuccessfulOrder extends BaseTest {
         loginPage.openPage();
         loginPage.userLogin("standard_user", "secret_sauce");
         homePage.applyFilter();
-        //String price = homePage.chooseItemByValue("49.99");
-        String price1 = homePage.chooseItemByValue("29.99");
+        String price = homePage.chooseItemByValue("49.99");
+        //String price1 = homePage.chooseItemByValue("29.99");
 
 
         homePage.viewCart();
-        List<WebElement> prices = driver.findElements(By.xpath("//div[@class=\"item_pricebar\"]"));
+        List<WebElement> prices = driver.findElements(By.cssSelector(".inventory_item_price"));
+        for(WebElement webElement : prices){
+            String actualPrice = webElement.getText();
+            Assertions.assertEquals(price,actualPrice);
 
+        }
 
         cartPage.proceedToCheckout();
 

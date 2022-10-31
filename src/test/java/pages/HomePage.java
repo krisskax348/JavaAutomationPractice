@@ -33,16 +33,21 @@ public class HomePage {
        Select filterMenu = new Select(driver.findElement(By.className("product_sort_container")));
        filterMenu.selectByValue("hilo");
     }
-    public String chooseItemByValue(String value){
-        List <WebElement> prices = driver.findElements(By.xpath("//div[@class=\"pricebar\"]"));
-        for(WebElement price : prices){
-            if(price.getText().contains(value)){
+    public String chooseItemByValue(String value) {
+        List<WebElement> prices = driver.findElements(By.xpath("//div[@class=\"pricebar\"]"));
+        for(WebElement element : prices){
+            element.findElement(By.cssSelector(".inventory_item_price"))
+        }
+        String actualValue = null;
+        for (WebElement price : prices) {
+            if (price.getText().contains(value)) {
                 By addToCart = RelativeLocator.with(By.tagName("button"))
                         .toRightOf(By.xpath("//div[contains(@class,\"inventory_item_price\") and text() = '" + value + "']"));
                 driver.findElement(addToCart).click();
+                actualValue = driver.findElement(By.cssSelector(".inventory_item_price")).getText();
             }
         }
-        return value;
+        return actualValue;
     }
 }
 
