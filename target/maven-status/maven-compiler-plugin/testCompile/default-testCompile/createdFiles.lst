@@ -1,0 +1,13 @@
+tests\LoginTests\SuccessfulLoginTest.class
+pages\LoginPage.class
+tests\LoginTests\UnsuccessfulLoginTest.class
+pages\CartPage.class
+pages\HomePage.class
+tests\BaseTest.class
+testdrivers\DriverFactory$1.class
+testdrivers\DriverFactory$BrowserList.class
+testdrivers\DriverFactory.class
+testdrivers\DriverManager.class
+pages\FinalizingOrderPage.class
+pages\UserDetailsPage.class
+tests\ShopTests\TestSuccessfulOrder.class
