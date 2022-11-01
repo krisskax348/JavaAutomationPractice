@@ -1,15 +1,20 @@
 package pages;
 
+import models.Item;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartPage {
     private WebDriver driver;
     private By checkoutButton = By.id("checkout");
     private By continueShoppingButton = By.id("continue-shopping");
+    private By inventoryItemPrice = By.cssSelector(".inventory_item_price");
+    private By inventoryItemName = By.cssSelector(".inventory_item_name");
+    private By inventoryItemDescription = By.cssSelector(".inventory_item_desc");
     public CartPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -17,7 +22,16 @@ public class CartPage {
 
         driver.findElement(checkoutButton).click();
     }
-    public void getPricesOfItemsInCart(){
-        List<WebElement> prices = driver.findElements(By.xpath("//div[@class=\"item_pricebar\"]"));
+    public List<Item> getItemsInCart(){
+        List<Item> items = new ArrayList<>();
+        List<WebElement> elements = driver.findElements(By.cssSelector(".cart_item"));
+        for(WebElement element : elements){
+            String name = element.findElement(inventoryItemName).getText();
+            String price = element.findElement(inventoryItemPrice).getText();
+            String desc = element.findElement(inventoryItemDescription).getText();
+            Item item = new Item(name,desc,price);
+            items.add(item);
+        }
+        return items;
     }
 }

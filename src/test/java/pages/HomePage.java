@@ -1,15 +1,14 @@
 package pages;
 
+import models.Item;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.locators.RelativeLocator;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 public class HomePage {
     private WebDriver driver;
@@ -19,6 +18,11 @@ public class HomePage {
     private By shoppingCart = By.className("shopping_cart_link");
     private By backpackAddButton = By.id("add-to-cart-sauce-labs-backpack");
     private By bikeLightCartAddButton = By.id("add-to-cart-sauce-labs-bike-light");
+    private By inventoryItem = By.cssSelector(".inventory_item");
+    private By inventoryItemPrice = By.cssSelector(".inventory_item_price");
+    private By inventoryItemName = By.cssSelector(".inventory_item_name");
+    private By inventoryItemDescription = By.cssSelector(".inventory_item_desc");
+    private By addToCartButton = By.cssSelector(".pricebar > button");
    public HomePage(WebDriver driver){
        this.driver = driver;
    }
@@ -33,21 +37,24 @@ public class HomePage {
        Select filterMenu = new Select(driver.findElement(By.className("product_sort_container")));
        filterMenu.selectByValue("hilo");
     }
-    public String chooseItemByValue(String value) {
-        List<WebElement> prices = driver.findElements(By.xpath("//div[@class=\"pricebar\"]"));
-        for(WebElement element : prices){
-            element.findElement(By.cssSelector(".inventory_item_price"))
-        }
-        String actualValue = null;
-        for (WebElement price : prices) {
+    public List<Item> chooseItemByValue(String value) {
+       List<Item> items = new ArrayList<>();
+        List<WebElement> elements = driver.findElements(inventoryItem);
+
+        for (WebElement element : elements) {
+            WebElement price = element.findElement(inventoryItemPrice);
             if (price.getText().contains(value)) {
-                By addToCart = RelativeLocator.with(By.tagName("button"))
-                        .toRightOf(By.xpath("//div[contains(@class,\"inventory_item_price\") and text() = '" + value + "']"));
-                driver.findElement(addToCart).click();
-                actualValue = driver.findElement(By.cssSelector(".inventory_item_price")).getText();
+
+                element.findElement(addToCartButton).click();
+                String productPrice = element.findElement(inventoryItemPrice).getText();
+                String productName = element.findElement(inventoryItemName).getText();
+                String productDesc = element.findElement(inventoryItemDescription).getText();
+                Item item = new Item(productName,productDesc,productPrice);
+                items.add(item);
+
             }
         }
-        return actualValue;
+        return items;
     }
 }
 
