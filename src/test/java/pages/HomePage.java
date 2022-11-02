@@ -4,7 +4,6 @@ import models.Item;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.locators.RelativeLocator;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
@@ -13,8 +12,7 @@ import java.util.List;
 public class HomePage {
     private WebDriver driver;
 
-    //private By filterMenu =By.className("product_sort_container");
-    //private By filter = By.className("product_sort_container");
+
     private By shoppingCart = By.className("shopping_cart_link");
     private By backpackAddButton = By.id("add-to-cart-sauce-labs-backpack");
     private By bikeLightCartAddButton = By.id("add-to-cart-sauce-labs-bike-light");
