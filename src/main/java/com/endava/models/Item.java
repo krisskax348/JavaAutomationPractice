@@ -1,4 +1,4 @@
-package models;
+package com.endava.models;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,9 +8,9 @@ import lombok.EqualsAndHashCode;
 public class Item {
     private String name;
     private String description;
-    private String price;
+    private Double price;
 
-    public Item(String name, String description, String price){
+    public Item(String name, String description, Double price){
         this.name = name;
         this.description = description;
         this.price = price;

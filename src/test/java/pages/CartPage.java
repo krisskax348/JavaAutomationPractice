@@ -1,6 +1,6 @@
 package pages;
 
-import models.Item;
+import com.endava.models.Item;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,7 +27,7 @@ public class CartPage {
         List<WebElement> elements = driver.findElements(By.cssSelector(".cart_item"));
         for(WebElement element : elements){
             String name = element.findElement(inventoryItemName).getText();
-            String price = element.findElement(inventoryItemPrice).getText();
+            double price = Double.parseDouble(element.findElement(inventoryItemPrice).getText().replace("$", ""));
             String desc = element.findElement(inventoryItemDescription).getText();
             Item item = new Item(name,desc,price);
             items.add(item);

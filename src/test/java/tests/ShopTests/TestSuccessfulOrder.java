@@ -1,6 +1,7 @@
 package tests.ShopTests;
 
-import models.Item;
+import com.endava.utils.ItemComparator;
+import com.endava.models.Item;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import pages.*;
 import tests.BaseTest;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TestSuccessfulOrder extends BaseTest {
@@ -32,13 +34,20 @@ public class TestSuccessfulOrder extends BaseTest {
     public void verifySuccessfulOrder(){
         loginPage.openPage();
         loginPage.userLogin("standard_user", "secret_sauce");
-        homePage.applyFilter();
         List<Item> expectedProducts = new ArrayList<>();
+        List<Item> unsortedItemList = homePage.getItemsList();
+       Collections.sort(unsortedItemList, new ItemComparator());
+       Double lowestPrice = unsortedItemList.get(0).getPrice();
 
-        //expectedProducts.addAll(homePage.chooseItemByValue("29.99"));
-        //expectedProducts.addAll(homePage.chooseItemByValue("49.99"));
-        expectedProducts.addAll(homePage.chooseItemByValue("15.99"));
 
+        for (Item i : unsortedItemList ) {
+            System.out.println(i);
+        }
+
+
+
+
+        expectedProducts.addAll(homePage.chooseItemByValue(lowestPrice));
 
 
         homePage.viewCart();
