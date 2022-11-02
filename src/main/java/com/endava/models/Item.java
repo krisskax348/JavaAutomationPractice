@@ -1,4 +1,4 @@
-package models;
+package com.endava.models;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

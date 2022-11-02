@@ -1,6 +1,6 @@
 package pages;
 
-import models.Item;
+import com.endava.models.Item;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -35,22 +35,34 @@ public class HomePage {
        Select filterMenu = new Select(driver.findElement(By.className("product_sort_container")));
        filterMenu.selectByValue("hilo");
     }
-    public List<Item> chooseItemByValue(String value) {
+    public List<Item> chooseItemByValue(Double value) {
        List<Item> items = new ArrayList<>();
         List<WebElement> elements = driver.findElements(inventoryItem);
 
         for (WebElement element : elements) {
             WebElement price = element.findElement(inventoryItemPrice);
-            if (price.getText().contains(value)) {
+            if (price.getText().contains(value.toString())) {
 
                 element.findElement(addToCartButton).click();
-                String productPrice = element.findElement(inventoryItemPrice).getText();
+                double productPrice = Double.parseDouble(element.findElement(inventoryItemPrice).getText().replace("$", ""));
                 String productName = element.findElement(inventoryItemName).getText();
                 String productDesc = element.findElement(inventoryItemDescription).getText();
                 Item item = new Item(productName,productDesc,productPrice);
                 items.add(item);
 
             }
+        }
+        return items;
+    }
+    public List<Item> getItemsList(){
+        List<Item> items = new ArrayList<>();
+        List<WebElement> elements = driver.findElements(By.cssSelector(".inventory_item"));
+        for(WebElement element : elements){
+            String name = element.findElement(inventoryItemName).getText();
+            double price = Double.parseDouble(element.findElement(inventoryItemPrice).getText().replace("$", ""));
+            String desc = element.findElement(inventoryItemDescription).getText();
+            Item item = new Item(name,desc,price);
+            items.add(item);
         }
         return items;
     }

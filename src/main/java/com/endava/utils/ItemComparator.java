@@ -1,6 +1,6 @@
-package comparators;
+package com.endava.utils;
 
-import models.Item;
+import com.endava.models.Item;
 
 import java.util.Comparator;
 
