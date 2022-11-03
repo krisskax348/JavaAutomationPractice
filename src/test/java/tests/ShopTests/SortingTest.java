@@ -1,7 +1,8 @@
 package tests.ShopTests;
 
 import com.endava.models.Item;
-import com.endava.utils.ItemComparator;
+import com.endava.utils.ItemNameComparator;
+import com.endava.utils.ItemPriceComparator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ public class SortingTest extends BaseTest {
         loginPage.userLogin("standard_user", "secret_sauce");
 
         List<Item> unsortedItemList = homePage.getItemsList();
-        Collections.sort(unsortedItemList, new ItemComparator());
+        Collections.sort(unsortedItemList, new ItemPriceComparator());
         homePage.applyFilter("lohi");
         List<Item> webFilteredItemList = homePage.getItemsList();
 
@@ -48,8 +49,21 @@ public class SortingTest extends BaseTest {
         loginPage.userLogin("standard_user", "secret_sauce");
 
         List<Item> unsortedItemList = homePage.getItemsList();
-        Collections.sort(unsortedItemList, new ItemComparator());
+        Collections.sort(unsortedItemList, new ItemPriceComparator());
         homePage.applyFilter("hilo");
+        List<Item> webFilteredItemList = homePage.getItemsList();
+
+        Assertions.assertEquals(unsortedItemList,webFilteredItemList);
+    }
+
+    @Test
+    public void verifySortingByAscendingName(){
+        loginPage.openPage();
+        loginPage.userLogin("standard_user", "secret_sauce");
+
+        List<Item> unsortedItemList = homePage.getItemsList();
+        Collections.sort(unsortedItemList,new ItemNameComparator());
+        homePage.applyFilter("az");
         List<Item> webFilteredItemList = homePage.getItemsList();
 
         Assertions.assertEquals(unsortedItemList,webFilteredItemList);

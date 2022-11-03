@@ -1,6 +1,6 @@
 package tests.ShopTests;
 
-import com.endava.utils.ItemComparator;
+import com.endava.utils.ItemPriceComparator;
 import com.endava.models.Item;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,25 +36,18 @@ public class TestSuccessfulOrder extends BaseTest {
         loginPage.userLogin("standard_user", "secret_sauce");
         List<Item> expectedProducts = new ArrayList<>();
         List<Item> unsortedItemList = homePage.getItemsList();
-       Collections.sort(unsortedItemList, new ItemComparator());
+       Collections.sort(unsortedItemList, new ItemPriceComparator());
        Double lowestPrice = unsortedItemList.get(0).getPrice();
-
 
         for (Item i : unsortedItemList ) {
             System.out.println(i);
         }
 
-
-
-
         expectedProducts.addAll(homePage.chooseItemByValue(lowestPrice));
-
 
         homePage.viewCart();
         List<Item> actualProducts = cartPage.getItemsInCart();
         Assertions.assertEquals(expectedProducts,actualProducts);
-
-
 
         cartPage.proceedToCheckout();
 
