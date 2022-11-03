@@ -4,7 +4,7 @@ import com.endava.models.Item;
 
 import java.util.Comparator;
 
-public class ItemComparator implements Comparator<Item> {
+public class ItemPriceComparator implements Comparator<Item> {
 
     @Override
     public int compare(Item item1, Item item2) {
