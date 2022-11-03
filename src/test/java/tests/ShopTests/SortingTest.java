@@ -69,4 +69,17 @@ public class SortingTest extends BaseTest {
         Assertions.assertEquals(unsortedItemList,webFilteredItemList);
     }
 
+    @Test
+    public void verifySortingByDescendingName(){
+        loginPage.openPage();
+        loginPage.userLogin("standard_user", "secret_sauce");
+
+        List<Item> unsortedItemList = homePage.getItemsList();
+        Collections.sort(unsortedItemList,new ItemNameComparator());
+        homePage.applyFilter("za");
+        List<Item> webFilteredItemList = homePage.getItemsList();
+
+        Assertions.assertEquals(unsortedItemList,webFilteredItemList);
+    }
+
 }
