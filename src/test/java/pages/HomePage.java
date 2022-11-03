@@ -33,7 +33,7 @@ public class HomePage {
    }
    public void applyFilter(){
        Select filterMenu = new Select(driver.findElement(By.className("product_sort_container")));
-       filterMenu.selectByValue("hilo");
+       filterMenu.selectByValue("lohi");
     }
     public List<Item> chooseItemByValue(Double value) {
        List<Item> items = new ArrayList<>();
