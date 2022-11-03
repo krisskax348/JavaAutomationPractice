@@ -31,9 +31,21 @@ public class HomePage {
    public void viewCart(){
        driver.findElement(shoppingCart).click();
    }
-   public void applyFilter(){
+   public String applyFilter(String value){
        Select filterMenu = new Select(driver.findElement(By.className("product_sort_container")));
-       filterMenu.selectByValue("lohi");
+       if(value == "lohi"){
+           filterMenu.selectByValue(value);
+       }
+       else if(value == "hilo"){
+           filterMenu.selectByValue(value);
+       }
+       else if(value == "az"){
+           filterMenu.selectByValue(value);
+       }
+       else if(value == "za"){
+           filterMenu.selectByValue(value);
+       }
+       return value;
     }
     public List<Item> chooseItemByValue(Double value) {
        List<Item> items = new ArrayList<>();

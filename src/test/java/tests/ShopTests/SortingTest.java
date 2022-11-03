@@ -39,11 +39,12 @@ public class SortingTest extends BaseTest {
 
         List<Item> unsortedItemList = homePage.getItemsList();
         Collections.sort(unsortedItemList, new ItemComparator());
-        homePage.applyFilter();
+        homePage.applyFilter("lohi");
         List<Item> webFilteredItemList = homePage.getItemsList();
 
         Assertions.assertEquals(unsortedItemList,webFilteredItemList);
 
 
     }
+
 }
