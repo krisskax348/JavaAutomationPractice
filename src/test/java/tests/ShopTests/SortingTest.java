@@ -7,14 +7,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.*;
 import tests.BaseTest;
-
 import java.util.Collections;
 import java.util.List;
 
 public class SortingTest extends BaseTest {
-    //sort items in list from homepage
-    //apply filter in browser
-    //
+
     private LoginPage loginPage;
     private HomePage homePage;
     private CartPage cartPage;
@@ -44,7 +41,18 @@ public class SortingTest extends BaseTest {
 
         Assertions.assertEquals(unsortedItemList,webFilteredItemList);
 
+    }
+    @Test
+    public void verifySortingByDescendingPrice(){
+        loginPage.openPage();
+        loginPage.userLogin("standard_user", "secret_sauce");
 
+        List<Item> unsortedItemList = homePage.getItemsList();
+        Collections.sort(unsortedItemList, new ItemComparator());
+        homePage.applyFilter("hilo");
+        List<Item> webFilteredItemList = homePage.getItemsList();
+
+        Assertions.assertEquals(unsortedItemList,webFilteredItemList);
     }
 
 }
