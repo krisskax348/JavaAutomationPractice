@@ -1,6 +1,7 @@
 package tests.ShopTests;
 
 import com.endava.models.Item;
+import constants.Constants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,52 +25,52 @@ public class SortingTest extends BaseTest {
     @Test
     public void verifySortingByAscendingPrice(){
         loginPage.openPage();
-        loginPage.userLogin("standard_user", "secret_sauce");
+        loginPage.userLogin(Constants.USERNAME, Constants.PASSWORD);
 
-        List<Item> unsortedItemList = homePage.getItemsList();
-        unsortedItemList.sort(Comparator.comparing(Item::getPrice));
-        homePage.applyFilter("lohi");
-        List<Item> webFilteredItemList = homePage.getItemsList();
+        List<Item> expectedlist = homePage.getItemsList();
+        expectedlist.sort(Comparator.comparing(Item::getPrice));
+        homePage.applyFilter(Constants.ASCENDING_PRICE);
+        List<Item> actualList = homePage.getItemsList();
 
-        Assertions.assertEquals(unsortedItemList,webFilteredItemList);
+        Assertions.assertEquals(expectedlist,actualList);
 
     }
     @Test
     public void verifySortingByDescendingPrice(){
         loginPage.openPage();
-        loginPage.userLogin("standard_user", "secret_sauce");
+        loginPage.userLogin(Constants.USERNAME, Constants.PASSWORD);
 
-        List<Item> unsortedItemList = homePage.getItemsList();
-        unsortedItemList.sort(Comparator.comparing(Item::getPrice).reversed());
-        homePage.applyFilter("hilo");
-        List<Item> webFilteredItemList = homePage.getItemsList();
+        List<Item> expectedList = homePage.getItemsList();
+        expectedList.sort(Comparator.comparing(Item::getPrice).reversed());
+        homePage.applyFilter(Constants.DESCENDING_PRICE);
+        List<Item> actualList = homePage.getItemsList();
 
-        Assertions.assertEquals(unsortedItemList,webFilteredItemList);
+        Assertions.assertEquals(expectedList,actualList);
     }
 
     @Test
     public void verifySortingByAscendingName(){
         loginPage.openPage();
-        loginPage.userLogin("standard_user", "secret_sauce");
+        loginPage.userLogin(Constants.USERNAME, Constants.PASSWORD);
 
-        List<Item> unsortedItemList = homePage.getItemsList();
-        unsortedItemList.sort(Comparator.comparing(Item::getName));
-        homePage.applyFilter("az");
-        List<Item> webFilteredItemList = homePage.getItemsList();
+        List<Item> expectedList = homePage.getItemsList();
+        expectedList.sort(Comparator.comparing(Item::getName));
+        homePage.applyFilter(Constants.ALPHABETIC_ORDER);
+        List<Item> actualList = homePage.getItemsList();
 
-        Assertions.assertEquals(unsortedItemList,webFilteredItemList);
+        Assertions.assertEquals(expectedList,actualList);
     }
 
     @Test
     public void verifySortingByDescendingName(){
         loginPage.openPage();
-        loginPage.userLogin("standard_user", "secret_sauce");
+        loginPage.userLogin(Constants.USERNAME, Constants.PASSWORD);
 
-        List<Item> unsortedItemList = homePage.getItemsList();
-        unsortedItemList.sort(Comparator.comparing(Item::getName).reversed());
-        homePage.applyFilter("za");
-        List<Item> webFilteredItemList = homePage.getItemsList();
+        List<Item> expectedList = homePage.getItemsList();
+        expectedList.sort(Comparator.comparing(Item::getName).reversed());
+        homePage.applyFilter(Constants.REVERSED_ALPHABETIC_ORDER);
+        List<Item> actualList = homePage.getItemsList();
 
-        Assertions.assertEquals(unsortedItemList,webFilteredItemList);
+        Assertions.assertEquals(expectedList,actualList);
     }
 }
