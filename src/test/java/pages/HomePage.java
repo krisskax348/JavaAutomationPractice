@@ -61,6 +61,7 @@ public class HomePage {
                 String productDesc = element.findElement(inventoryItemDescription).getText();
                 Item item = new Item(productName,productDesc,productPrice);
                 items.add(item);
+                break;
 
             }
         }

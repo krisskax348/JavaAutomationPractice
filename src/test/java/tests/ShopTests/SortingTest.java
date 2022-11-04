@@ -1,34 +1,25 @@
 package tests.ShopTests;
 
 import com.endava.models.Item;
-import com.endava.utils.ItemNameComparator;
-import com.endava.utils.ItemPriceComparator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pages.*;
+import pages.HomePage;
+import pages.LoginPage;
 import tests.BaseTest;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class SortingTest extends BaseTest {
 
     private LoginPage loginPage;
     private HomePage homePage;
-    private CartPage cartPage;
-    private UserDetailsPage userDetailsPage;
-    private FinalizingOrderPage finalizingOrderPage;
-    private CompleteOrderPage completeOrderPage;
 
     @BeforeEach
     public void setup() {
         driverSetup();
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
-        cartPage = new CartPage(driver);
-        userDetailsPage = new UserDetailsPage(driver);
-        finalizingOrderPage = new FinalizingOrderPage(driver);
-        completeOrderPage = new CompleteOrderPage(driver);
     }
     @Test
     public void verifySortingByAscendingPrice(){
@@ -36,7 +27,7 @@ public class SortingTest extends BaseTest {
         loginPage.userLogin("standard_user", "secret_sauce");
 
         List<Item> unsortedItemList = homePage.getItemsList();
-        Collections.sort(unsortedItemList, new ItemPriceComparator());
+        unsortedItemList.sort(Comparator.comparing(Item::getPrice));
         homePage.applyFilter("lohi");
         List<Item> webFilteredItemList = homePage.getItemsList();
 
@@ -49,7 +40,7 @@ public class SortingTest extends BaseTest {
         loginPage.userLogin("standard_user", "secret_sauce");
 
         List<Item> unsortedItemList = homePage.getItemsList();
-        Collections.sort(unsortedItemList, new ItemPriceComparator());
+        unsortedItemList.sort(Comparator.comparing(Item::getPrice).reversed());
         homePage.applyFilter("hilo");
         List<Item> webFilteredItemList = homePage.getItemsList();
 
@@ -62,7 +53,7 @@ public class SortingTest extends BaseTest {
         loginPage.userLogin("standard_user", "secret_sauce");
 
         List<Item> unsortedItemList = homePage.getItemsList();
-        Collections.sort(unsortedItemList,new ItemNameComparator());
+        unsortedItemList.sort(Comparator.comparing(Item::getName));
         homePage.applyFilter("az");
         List<Item> webFilteredItemList = homePage.getItemsList();
 
@@ -75,11 +66,10 @@ public class SortingTest extends BaseTest {
         loginPage.userLogin("standard_user", "secret_sauce");
 
         List<Item> unsortedItemList = homePage.getItemsList();
-        Collections.sort(unsortedItemList,new ItemNameComparator());
+        unsortedItemList.sort(Comparator.comparing(Item::getName).reversed());
         homePage.applyFilter("za");
         List<Item> webFilteredItemList = homePage.getItemsList();
 
         Assertions.assertEquals(unsortedItemList,webFilteredItemList);
     }
-
 }
