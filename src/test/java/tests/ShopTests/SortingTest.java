@@ -11,6 +11,8 @@ import tests.BaseTest;
 import java.util.Comparator;
 import java.util.List;
 
+import static pages.HomePage.*;
+
 public class SortingTest extends BaseTest {
     private LoginPage loginPage;
     private HomePage homePage;
@@ -27,7 +29,7 @@ public class SortingTest extends BaseTest {
     public void verifySortingByAscendingPrice(){
         List<Item> expectedlist = homePage.getItemsList();
         expectedlist.sort(Comparator.comparing(Item::getPrice));
-        homePage.applyFilter(Constants.ASCENDING_PRICE);
+        homePage.applyFilter(ASCENDING_PRICE);
         List<Item> actualList = homePage.getItemsList();
 
         Assertions.assertEquals(expectedlist,actualList);
@@ -36,7 +38,7 @@ public class SortingTest extends BaseTest {
     public void verifySortingByDescendingPrice(){
         List<Item> expectedList = homePage.getItemsList();
         expectedList.sort(Comparator.comparing(Item::getPrice).reversed());
-        homePage.applyFilter(Constants.DESCENDING_PRICE);
+        homePage.applyFilter(DESCENDING_PRICE);
         List<Item> actualList = homePage.getItemsList();
 
         Assertions.assertEquals(expectedList,actualList);
@@ -46,7 +48,7 @@ public class SortingTest extends BaseTest {
     public void verifySortingByAscendingName(){
         List<Item> expectedList = homePage.getItemsList();
         expectedList.sort(Comparator.comparing(Item::getName));
-        homePage.applyFilter(Constants.ALPHABETIC_ORDER);
+        homePage.applyFilter(ALPHABETIC_ORDER);
         List<Item> actualList = homePage.getItemsList();
 
         Assertions.assertEquals(expectedList,actualList);
@@ -56,7 +58,7 @@ public class SortingTest extends BaseTest {
     public void verifySortingByDescendingName(){
         List<Item> expectedList = homePage.getItemsList();
         expectedList.sort(Comparator.comparing(Item::getName).reversed());
-        homePage.applyFilter(Constants.REVERSED_ALPHABETIC_ORDER);
+        homePage.applyFilter(REVERSED_ALPHABETIC_ORDER);
         List<Item> actualList = homePage.getItemsList();
 
         Assertions.assertEquals(expectedList,actualList);

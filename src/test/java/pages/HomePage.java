@@ -21,6 +21,10 @@ public class HomePage {
     private static final By INVENTORY_ITEM_DESCRIPTION = By.cssSelector(".inventory_item_desc");
     private static final By ADD_TO_CART_BUTTON = By.cssSelector(".pricebar > button");
     private static final By FILTER_MENU = By.className("product_sort_container");
+    public static final String ASCENDING_PRICE = "lohi";
+    public static final String DESCENDING_PRICE = "hilo";
+    public static final String ALPHABETIC_ORDER = "az";
+    public static final String REVERSED_ALPHABETIC_ORDER = "za";
    public HomePage(WebDriver driver){
        this.driver = driver;
    }
