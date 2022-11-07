@@ -6,11 +6,11 @@ import org.openqa.selenium.WebDriver;
 public class LoginPage {
   private WebDriver driver;
   public static final String BASE_URL = PropertiesManager.getProperties("baseUrl");
-  private By usernameField = By.id("user-name");
-  private By passField = By.id("password");
-  private By loginButton = By.id("login-button");
-  private By productsTitle = By.className("title");
-  private By errorMessageLogin = By.xpath("//h3[@data-test=\"error\"]");
+  private static final By USERNAME_FIELD = By.id("user-name");
+  private static final By PASS_FIELD = By.id("password");
+  private static final By LOGIN_BUTTON = By.id("login-button");
+  private static final By PRODUCTS_TITLE = By.className("title");
+  private static final By ERROR_MESSAGE_LOGIN = By.xpath("//h3[@data-test=\"error\"]");
 
   public LoginPage(WebDriver driver) {
     this.driver = driver;
@@ -19,14 +19,14 @@ public class LoginPage {
     driver.get(BASE_URL);
   }
   public void userLogin(String username, String password) {
-    driver.findElement(usernameField).sendKeys(username);
-    driver.findElement(passField).sendKeys(password);
-    driver.findElement(loginButton).click();
+    driver.findElement(USERNAME_FIELD).sendKeys(username);
+    driver.findElement(PASS_FIELD).sendKeys(password);
+    driver.findElement(LOGIN_BUTTON).click();
   }
   public String getProductsTitle() {
-    return driver.findElement(productsTitle).getText();
+    return driver.findElement(PRODUCTS_TITLE).getText();
   }
   public String getWrongCredentialsMessage() {
-    return driver.findElement(errorMessageLogin).getText();
+    return driver.findElement(ERROR_MESSAGE_LOGIN).getText();
   }
 }

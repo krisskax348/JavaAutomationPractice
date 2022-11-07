@@ -1,6 +1,7 @@
 package tests.ShopTests;
 
 import com.endava.models.Item;
+import constants.Constants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,22 +27,18 @@ public class TestSuccessfulOrder extends BaseTest {
         userDetailsPage = new UserDetailsPage(driver);
         finalizingOrderPage = new FinalizingOrderPage(driver);
         completeOrderPage = new CompleteOrderPage(driver);
+        loginPage.openPage();
+        loginPage.userLogin(Constants.USERNAME,Constants.PASSWORD);
     }
 
     @Test
     public void verifySuccessfulOrder() {
-        loginPage.openPage();
-        loginPage.userLogin("standard_user", "secret_sauce");
         List<Item> expectedProducts = new ArrayList<>();
         List<Item> unsortedItemList = homePage.getItemsList();
         unsortedItemList.sort(Comparator.comparing(Item::getPrice));
         Random random = new Random();
         Item i1 = unsortedItemList.get(random.nextInt(unsortedItemList.size()));
         Double lowestPrice = i1.getPrice();
-
-        for (Item i : unsortedItemList) {
-            System.out.println(i);
-        }
 
         expectedProducts.addAll(homePage.chooseItemByValue(lowestPrice));
 

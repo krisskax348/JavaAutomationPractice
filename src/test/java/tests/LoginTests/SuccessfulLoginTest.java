@@ -9,7 +9,6 @@ import tests.BaseTest;
 
 public class SuccessfulLoginTest extends BaseTest {
         private LoginPage loginPage;
-
         @BeforeEach
         public void setup() {
                 driverSetup();
@@ -17,9 +16,7 @@ public class SuccessfulLoginTest extends BaseTest {
         }
         @Test
         public void verifyUserLogin() {
-
                 loginPage.openPage();
-
                 loginPage.userLogin(Constants.USERNAME, Constants.PASSWORD);
 
                 String actualTitle = loginPage.getProductsTitle();

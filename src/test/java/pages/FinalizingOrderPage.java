@@ -5,13 +5,13 @@ import org.openqa.selenium.WebDriver;
 
 public class FinalizingOrderPage {
     private WebDriver driver;
-    private By finishOrderButton = By.name("finish");
-    private By cancelOrderBtn = By.id("cancel");
+    private static final By FINISH_ORDER_BUTTON = By.name("finish");
+    private static final By CANCEL_ORDER_BUTTON = By.id("cancel");
     public FinalizingOrderPage(WebDriver driver){
         this.driver = driver;
     }
 
     public void finishOrder(){
-        driver.findElement(finishOrderButton).click();
+        driver.findElement(FINISH_ORDER_BUTTON).click();
     }
 }
