@@ -1,7 +1,6 @@
 package tests.ShopTests;
 
 import com.endava.models.Item;
-import constants.Constants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ public class SortingTest extends BaseTest {
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
         loginPage.openPage();
-        loginPage.userLogin(Constants.USERNAME, Constants.PASSWORD);
+        loginPage.userLogin(LoginPage.USERNAME, LoginPage.PASSWORD);
     }
     @Test
     public void verifySortingByAscendingPrice(){

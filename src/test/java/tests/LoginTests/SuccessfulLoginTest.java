@@ -1,6 +1,5 @@
 package tests.LoginTests;
 
-import constants.Constants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ public class SuccessfulLoginTest extends BaseTest {
         @Test
         public void verifyUserLogin() {
                 loginPage.openPage();
-                loginPage.userLogin(Constants.USERNAME, Constants.PASSWORD);
+                loginPage.userLogin(LoginPage.USERNAME,LoginPage.PASSWORD);
 
                 String actualTitle = loginPage.getProductsTitle();
                 String expectedTitle = "Products".toUpperCase();

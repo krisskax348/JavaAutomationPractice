@@ -8,6 +8,8 @@ public class LoginPage {
   public static final String BASE_URL = PropertiesManager.getProperties("baseUrl");
   private static final By USERNAME_FIELD = By.id("user-name");
   private static final By PASS_FIELD = By.id("password");
+  public static final String USERNAME = "standard_user";
+  public static final String PASSWORD = "secret_sauce";
   private static final By LOGIN_BUTTON = By.id("login-button");
   private static final By PRODUCTS_TITLE = By.className("title");
   private static final By ERROR_MESSAGE_LOGIN = By.xpath("//h3[@data-test=\"error\"]");

@@ -1,7 +1,6 @@
 package tests.ShopTests;
 
 import com.endava.models.Item;
-import constants.Constants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,7 @@ public class TestSuccessfulOrder extends BaseTest {
         finalizingOrderPage = new FinalizingOrderPage(driver);
         completeOrderPage = new CompleteOrderPage(driver);
         loginPage.openPage();
-        loginPage.userLogin(Constants.USERNAME,Constants.PASSWORD);
+        loginPage.userLogin(LoginPage.USERNAME, LoginPage.PASSWORD);
     }
 
     @Test

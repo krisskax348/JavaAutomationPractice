@@ -1,6 +1,5 @@
 package tests.LoginTests;
 
-import constants.Constants;
 import pages.LoginPage;
 import tests.BaseTest;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +17,7 @@ public class UnsuccessfulLoginTest extends BaseTest {
     @Test
     public void verifyUnsuccessfulLogin(){
         loginPage.openPage();
-        loginPage.userLogin("standard_userS", Constants.PASSWORD);
+        loginPage.userLogin("standard_userS", LoginPage.PASSWORD);
         String errorMsg = loginPage.getWrongCredentialsMessage();
         Assertions.assertEquals("Epic sadface: Username and password do not match any user in this service", errorMsg);
     }
