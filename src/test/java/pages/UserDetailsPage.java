@@ -5,19 +5,19 @@ import org.openqa.selenium.WebDriver;
 
 public class UserDetailsPage {
     private WebDriver driver;
-    private By firstName = By.id("first-name");
-    private By lastName = By.id("last-name");
-    private By postalCode = By.id("postal-code");
-    private By continueButton = By.id("continue");
-    private By cancelCheckoutButton = By.id("cancel");
+    private final By FIRST_NAME = By.id("first-name");
+    private final By LAST_NAME = By.id("last-name");
+    private final By POSTAL_CODE = By.id("postal-code");
+    private final By CONTINUE_BUTTON = By.id("continue");
+    private final By CANCEL_CHECKOUT_BUTTON = By.id("cancel");
 
     public UserDetailsPage(WebDriver driver){
         this.driver = driver;
     }
     public void enterUserDetails(String fName, String lName, String pCode){
-        driver.findElement(firstName).sendKeys(fName);
-        driver.findElement(lastName).sendKeys(lName);
-        driver.findElement(postalCode).sendKeys(pCode);
-        driver.findElement(continueButton).click();
+        driver.findElement(FIRST_NAME).sendKeys(fName);
+        driver.findElement(LAST_NAME).sendKeys(lName);
+        driver.findElement(POSTAL_CODE).sendKeys(pCode);
+        driver.findElement(CONTINUE_BUTTON).click();
     }
 }

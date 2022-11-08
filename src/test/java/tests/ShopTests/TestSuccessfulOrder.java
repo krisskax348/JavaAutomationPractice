@@ -1,18 +1,13 @@
 package tests.ShopTests;
 
-import models.Item;
+import com.endava.models.Item;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import pages.*;
 import tests.BaseTest;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.*;
 
 public class TestSuccessfulOrder extends BaseTest {
     private LoginPage loginPage;
@@ -31,25 +26,24 @@ public class TestSuccessfulOrder extends BaseTest {
         userDetailsPage = new UserDetailsPage(driver);
         finalizingOrderPage = new FinalizingOrderPage(driver);
         completeOrderPage = new CompleteOrderPage(driver);
-    }
-    @Test
-    public void verifySuccessfulOrder(){
         loginPage.openPage();
-        loginPage.userLogin("standard_user", "secret_sauce");
-        homePage.applyFilter();
+        loginPage.userLogin(LoginPage.USERNAME, LoginPage.PASSWORD);
+    }
+
+    @Test
+    public void verifySuccessfulOrder() {
         List<Item> expectedProducts = new ArrayList<>();
+        List<Item> unsortedItemList = homePage.getItemsList();
+        unsortedItemList.sort(Comparator.comparing(Item::getPrice));
+        Random random = new Random();
+        Item i1 = unsortedItemList.get(random.nextInt(unsortedItemList.size()));
+        Double lowestPrice = i1.getPrice();
 
-        //expectedProducts.addAll(homePage.chooseItemByValue("29.99"));
-        //expectedProducts.addAll(homePage.chooseItemByValue("49.99"));
-        expectedProducts.addAll(homePage.chooseItemByValue("15.99"));
-
-
+        expectedProducts.addAll(homePage.chooseItemByValue(lowestPrice));
 
         homePage.viewCart();
         List<Item> actualProducts = cartPage.getItemsInCart();
-        Assertions.assertEquals(expectedProducts,actualProducts);
-
-
+        Assertions.assertEquals(expectedProducts, actualProducts);
 
         cartPage.proceedToCheckout();
 
