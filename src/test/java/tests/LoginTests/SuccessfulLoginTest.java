@@ -8,7 +8,6 @@ import tests.BaseTest;
 
 public class SuccessfulLoginTest extends BaseTest {
         private LoginPage loginPage;
-
         @BeforeEach
         public void setup() {
                 driverSetup();
@@ -16,10 +15,8 @@ public class SuccessfulLoginTest extends BaseTest {
         }
         @Test
         public void verifyUserLogin() {
-
                 loginPage.openPage();
-
-                loginPage.userLogin("standard_user", "secret_sauce");
+                loginPage.userLogin(LoginPage.USERNAME,LoginPage.PASSWORD);
 
                 String actualTitle = loginPage.getProductsTitle();
                 String expectedTitle = "Products".toUpperCase();

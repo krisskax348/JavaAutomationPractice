@@ -17,7 +17,7 @@ public class UnsuccessfulLoginTest extends BaseTest {
     @Test
     public void verifyUnsuccessfulLogin(){
         loginPage.openPage();
-        loginPage.userLogin("standard_userS", "secret_sauce");
+        loginPage.userLogin("standard_userS", LoginPage.PASSWORD);
         String errorMsg = loginPage.getWrongCredentialsMessage();
         Assertions.assertEquals("Epic sadface: Username and password do not match any user in this service", errorMsg);
     }

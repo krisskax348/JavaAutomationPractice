@@ -1,6 +1,5 @@
 package tests.ShopTests;
 
-import com.endava.utils.ItemComparator;
 import com.endava.models.Item;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,9 +7,7 @@ import org.junit.jupiter.api.Test;
 import pages.*;
 import tests.BaseTest;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class TestSuccessfulOrder extends BaseTest {
     private LoginPage loginPage;
@@ -29,32 +26,24 @@ public class TestSuccessfulOrder extends BaseTest {
         userDetailsPage = new UserDetailsPage(driver);
         finalizingOrderPage = new FinalizingOrderPage(driver);
         completeOrderPage = new CompleteOrderPage(driver);
-    }
-    @Test
-    public void verifySuccessfulOrder(){
         loginPage.openPage();
-        loginPage.userLogin("standard_user", "secret_sauce");
+        loginPage.userLogin(LoginPage.USERNAME, LoginPage.PASSWORD);
+    }
+
+    @Test
+    public void verifySuccessfulOrder() {
         List<Item> expectedProducts = new ArrayList<>();
         List<Item> unsortedItemList = homePage.getItemsList();
-       Collections.sort(unsortedItemList, new ItemComparator());
-       Double lowestPrice = unsortedItemList.get(0).getPrice();
-
-
-        for (Item i : unsortedItemList ) {
-            System.out.println(i);
-        }
-
-
-
+        unsortedItemList.sort(Comparator.comparing(Item::getPrice));
+        Random random = new Random();
+        Item i1 = unsortedItemList.get(random.nextInt(unsortedItemList.size()));
+        Double lowestPrice = i1.getPrice();
 
         expectedProducts.addAll(homePage.chooseItemByValue(lowestPrice));
 
-
         homePage.viewCart();
         List<Item> actualProducts = cartPage.getItemsInCart();
-        Assertions.assertEquals(expectedProducts,actualProducts);
-
-
+        Assertions.assertEquals(expectedProducts, actualProducts);
 
         cartPage.proceedToCheckout();
 
