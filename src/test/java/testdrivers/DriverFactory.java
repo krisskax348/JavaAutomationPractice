@@ -1,7 +1,9 @@
 package testdrivers;
+
 import com.endava.exceptions.BrowserNotSupportedException;
 import com.endava.utils.PropertiesManager;
 import org.openqa.selenium.WebDriver;
+
 public class DriverFactory {
     public WebDriver createInstance() {
         WebDriver driver;
@@ -28,6 +30,7 @@ public class DriverFactory {
         }
         return driver;
     }
+
     public enum BrowserList {
         CHROME, FIREFOX, EDGE
     }

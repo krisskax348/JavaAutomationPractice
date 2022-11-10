@@ -3,41 +3,31 @@ package tests.LoginTests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import pages.LoginPage;
 import tests.BaseTest;
 
 public class ParameterizedTests extends BaseTest {
     private LoginPage loginPage;
+
     @BeforeEach
     public void setup() {
         driverSetup();
         loginPage = new LoginPage(driver);
     }
-    @ParameterizedTest(name = "{index}: username=''{0}''")
-    @ValueSource(strings = {"standard_user", "problem_user", "standard_user"})
-    public void verifySuccessfulUserLogin(String username) {
-        loginPage.openPage();
-        loginPage.userLogin(username, LoginPage.PASSWORD);
-        String actualTitle = loginPage.getProductsTitle();
-        String expectedTitle = "Products".toUpperCase();
-        Assertions.assertEquals(expectedTitle, actualTitle);
 
-    }
-    @ParameterizedTest
-    @ValueSource(strings = {"standard_userS", "user", "test345"})
-    public void verifyUnsuccessfulLoginWithWrongUsername(String username){
+    @ParameterizedTest(name = "{index}: username=''{0}'' password=''{1}''")
+    @CsvSource({
+            "standard_user, scsc, Epic sadface: Username and password do not match any user in this service",
+            "standard_userS, secret_sauce, Epic sadface: Username and password do not match any user in this service",
+            "standard_userS, secret_sauceS, Epic sadface: Username and password do not match any user in this service",
+            "'', secret_sauce, Epic sadface: Username is required",
+            "standard_user, '', Epic sadface: Password is required"
+    })
+    void verifyUnsuccessfulLoginWithWrongCredentials(String username, String password, String expectedMessage) {
         loginPage.openPage();
-        loginPage.userLogin(username, LoginPage.PASSWORD);
-        String errorMsg = loginPage.getWrongCredentialsMessage();
-        Assertions.assertEquals("Epic sadface: Username and password do not match any user in this service", errorMsg);
-    }
-    @ParameterizedTest
-    @ValueSource(strings = {"secret_sauce", "scsc", "sauce"})
-    public void verifyUnsuccessfulLoginWithWrongPassword(String password){
-        loginPage.openPage();
-        loginPage.userLogin(LoginPage.USERNAME, password);
-        String errorMsg = loginPage.getWrongCredentialsMessage();
-        Assertions.assertEquals("Epic sadface: Username and password do not match any user in this service", errorMsg);
+        loginPage.userLogin(username, password);
+        String actualMessage = loginPage.getWrongCredentialsMessage();
+        Assertions.assertEquals(expectedMessage, actualMessage);
     }
 }

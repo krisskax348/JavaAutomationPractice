@@ -11,10 +11,11 @@ public class UserDetailsPage {
     private final By CONTINUE_BUTTON = By.id("continue");
     private final By CANCEL_CHECKOUT_BUTTON = By.id("cancel");
 
-    public UserDetailsPage(WebDriver driver){
+    public UserDetailsPage(WebDriver driver) {
         this.driver = driver;
     }
-    public void enterUserDetails(String fName, String lName, String pCode){
+
+    public void enterUserDetails(String fName, String lName, String pCode) {
         driver.findElement(FIRST_NAME).sendKeys(fName);
         driver.findElement(LAST_NAME).sendKeys(lName);
         driver.findElement(POSTAL_CODE).sendKeys(pCode);
