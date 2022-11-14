@@ -8,7 +8,7 @@ public class ResourcesManager {
         return new File(resourceFilePath);
     }
 
-    private static ClassLoader getClassLoader() {
+    public static ClassLoader getClassLoader() {
         return Thread.currentThread().getContextClassLoader();
     }
 }

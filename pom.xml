@@ -64,16 +64,24 @@
     </dependencies>
     <profiles>
         <profile>
-            <id>local</id>
+            <id>chrome</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
-                <configuration.path>src/main/resources</configuration.path>
                 <browser>chrome</browser>
             </properties>
         </profile>
         <profile>
-            <id>chrome</id>
+            <id>edge</id>
             <properties>
-                <browser>chrome</browser>
+                <browser>edge</browser>
+            </properties>
+        </profile>
+        <profile>
+            <id>firefox</id>
+            <properties>
+                <browser>firefox</browser>
             </properties>
         </profile>
     </profiles>
@@ -90,12 +98,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M7</version>
-                <configuration>
-                    <systemPropertyVariables>
-                        <configuration.path>${configuration.path}</configuration.path>
-                        <browser>${browser}</browser>
-                    </systemPropertyVariables>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <systemPropertyVariables>-->
+<!--                        <browser>${browser}</browser>-->
+<!--                    </systemPropertyVariables>-->
+<!--                </configuration>-->
             </plugin>
             <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin -->
             <plugin>
