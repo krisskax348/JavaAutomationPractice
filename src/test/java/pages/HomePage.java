@@ -25,22 +25,27 @@ public class HomePage {
     public static final String DESCENDING_PRICE = "hilo";
     public static final String ALPHABETIC_ORDER = "az";
     public static final String REVERSED_ALPHABETIC_ORDER = "za";
-   public HomePage(WebDriver driver){
-       this.driver = driver;
-   }
-   public void selectItems(){
-       driver.findElement(BACKPACK_ADD_BUTTON).click();
-       driver.findElement(BIKE_LIGHT_CART_ADD_BUTTON).click();
-   }
-   public void viewCart(){
-       driver.findElement(SHOPPING_CART).click();
-   }
-   public void applyFilter(String value) {
-       Select select = new Select(driver.findElement(FILTER_MENU));
-       select.selectByValue(value);
-   }
+
+    public HomePage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public void selectItems() {
+        driver.findElement(BACKPACK_ADD_BUTTON).click();
+        driver.findElement(BIKE_LIGHT_CART_ADD_BUTTON).click();
+    }
+
+    public void viewCart() {
+        driver.findElement(SHOPPING_CART).click();
+    }
+
+    public void applyFilter(String value) {
+        Select select = new Select(driver.findElement(FILTER_MENU));
+        select.selectByValue(value);
+    }
+
     public List<Item> chooseItemByValue(Double value) {
-       List<Item> items = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
         List<WebElement> elements = driver.findElements(INVENTORY_ITEM);
 
         for (WebElement element : elements) {
@@ -51,7 +56,7 @@ public class HomePage {
                 double productPrice = Double.parseDouble(element.findElement(INVENTORY_ITEM_PRICE).getText().replace("$", ""));
                 String productName = element.findElement(INVENTORY_ITEM_NAME).getText();
                 String productDesc = element.findElement(INVENTORY_ITEM_DESCRIPTION).getText();
-                Item item = new Item(productName,productDesc,productPrice);
+                Item item = new Item(productName, productDesc, productPrice);
                 items.add(item);
                 break;
 
@@ -59,14 +64,15 @@ public class HomePage {
         }
         return items;
     }
-    public List<Item> getItemsList(){
+
+    public List<Item> getItemsList() {
         List<Item> items = new ArrayList<>();
         List<WebElement> elements = driver.findElements(By.cssSelector(".inventory_item"));
-        for(WebElement element : elements){
+        for (WebElement element : elements) {
             String name = element.findElement(INVENTORY_ITEM_NAME).getText();
             double price = Double.parseDouble(element.findElement(INVENTORY_ITEM_PRICE).getText().replace("$", ""));
             String desc = element.findElement(INVENTORY_ITEM_DESCRIPTION).getText();
-            Item item = new Item(name,desc,price);
+            Item item = new Item(name, desc, price);
             items.add(item);
         }
         return items;
