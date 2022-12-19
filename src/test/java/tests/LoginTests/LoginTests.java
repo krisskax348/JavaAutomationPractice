@@ -20,7 +20,7 @@ public class LoginTests extends BaseTest {
     public void verifySuccessfulUserLogin() {
         loginPage.userLogin(LoginPage.USERNAME, LoginPage.PASSWORD);
         String actualTitle = loginPage.getProductsTitle();
-        String expectedTitle = "Products".toUpperCase();
+        String expectedTitle = "PRODUCTS";
         Assertions.assertEquals(expectedTitle, actualTitle);
     }
 

@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class PropertiesManager {
     static Properties properties = new Properties();
-    private static  String PROPERTIES_FILE = "config.properties";
+    private static String PROPERTIES_FILE = "config.properties";
 
     public static String getProperties(String key) {
         String value = null;
@@ -16,7 +16,7 @@ public class PropertiesManager {
         try {
             InputStream input = new FileInputStream(resource.getFile());
             properties.load(input);
-                value = properties.getProperty(key);
+            value = properties.getProperty(key);
 
         } catch (Exception e) {
             System.out.println(e.getCause());

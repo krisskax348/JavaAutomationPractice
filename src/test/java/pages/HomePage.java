@@ -26,6 +26,7 @@ public class HomePage {
     public static final String ALPHABETIC_ORDER = "az";
     public static final String REVERSED_ALPHABETIC_ORDER = "za";
 
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
@@ -67,7 +68,7 @@ public class HomePage {
 
     public List<Item> getItemsList() {
         List<Item> items = new ArrayList<>();
-        List<WebElement> elements = driver.findElements(By.cssSelector(".inventory_item"));
+        List<WebElement> elements = driver.findElements(INVENTORY_ITEM);
         for (WebElement element : elements) {
             String name = element.findElement(INVENTORY_ITEM_NAME).getText();
             double price = Double.parseDouble(element.findElement(INVENTORY_ITEM_PRICE).getText().replace("$", ""));

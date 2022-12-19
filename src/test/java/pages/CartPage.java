@@ -16,6 +16,8 @@ public class CartPage {
     private static final By INVENTORY_ITEM_NAME = By.cssSelector(".inventory_item_name");
     private static final By INVENTORY_ITEM_DESCRIPTION = By.cssSelector(".inventory_item_desc");
 
+    private static final By CART_ITEM = By.cssSelector(".cart_item");
+
     public CartPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -27,7 +29,7 @@ public class CartPage {
 
     public List<Item> getItemsInCart() {
         List<Item> items = new ArrayList<>();
-        List<WebElement> elements = driver.findElements(By.cssSelector(".cart_item"));
+        List<WebElement> elements = driver.findElements(CART_ITEM);
         for (WebElement element : elements) {
             String name = element.findElement(INVENTORY_ITEM_NAME).getText();
             double price = Double.parseDouble(element.findElement(INVENTORY_ITEM_PRICE).getText().replace("$", ""));

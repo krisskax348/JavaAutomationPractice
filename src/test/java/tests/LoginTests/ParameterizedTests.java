@@ -18,9 +18,8 @@ public class ParameterizedTests extends BaseTest {
 
     @ParameterizedTest(name = "{index}: username=''{0}'' password=''{1}''")
     @CsvSource({
-            "standard_user, scsc, Epic sadface: Username and password do not match any user in this service",
-            "standard_userS, secret_sauce, Epic sadface: Username and password do not match any user in this service",
-            "standard_userS, secret_sauceS, Epic sadface: Username and password do not match any user in this service",
+            "incorrect_user, secret_sauce, Epic sadface: Username and password do not match any user in this service",
+            "standard_userS, incorrect_password, Epic sadface: Username and password do not match any user in this service",
             "'', secret_sauce, Epic sadface: Username is required",
             "standard_user, '', Epic sadface: Password is required"
     })

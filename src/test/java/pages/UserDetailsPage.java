@@ -15,10 +15,10 @@ public class UserDetailsPage {
         this.driver = driver;
     }
 
-    public void enterUserDetails(String fName, String lName, String pCode) {
-        driver.findElement(FIRST_NAME).sendKeys(fName);
-        driver.findElement(LAST_NAME).sendKeys(lName);
-        driver.findElement(POSTAL_CODE).sendKeys(pCode);
+    public void enterUserDetails(String firstName, String lastName, String postalCode) {
+        driver.findElement(FIRST_NAME).sendKeys(firstName);
+        driver.findElement(LAST_NAME).sendKeys(lastName);
+        driver.findElement(POSTAL_CODE).sendKeys(postalCode);
         driver.findElement(CONTINUE_BUTTON).click();
     }
 }
