@@ -16,6 +16,8 @@ public class CartPage {
     private static final By INVENTORY_ITEM_NAME = By.cssSelector(".inventory_item_name");
     private static final By INVENTORY_ITEM_DESCRIPTION = By.cssSelector(".inventory_item_desc");
 
+    private static final By CART_ITEM_COUNT = By.cssSelector("shopping_cart_badge");
+
     private static final By CART_ITEM = By.cssSelector(".cart_item");
 
     public CartPage(WebDriver driver) {
@@ -36,7 +38,11 @@ public class CartPage {
             String desc = element.findElement(INVENTORY_ITEM_DESCRIPTION).getText();
             Item item = new Item(name, desc, price);
             items.add(item);
+
         }
         return items;
+    }
+    public int getCartCount(){
+        return Integer.parseInt(driver.findElement(CART_ITEM_COUNT).getText());
     }
 }
