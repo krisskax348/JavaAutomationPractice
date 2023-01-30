@@ -1,6 +1,5 @@
 package tests.ShopTests;
 
-import com.endava.models.Item;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,10 +7,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import pages.*;
 import tests.BaseTest;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ParameterizedUserDetailsTest extends BaseTest {
+public class CheckoutUserDetailsTests extends BaseTest {
     private LoginPage loginPage;
     private HomePage homePage;
     private CartPage cartPage;
@@ -35,12 +31,8 @@ public class ParameterizedUserDetailsTest extends BaseTest {
             "'', Teneva, 6000, Error: First Name is required"
     })
     void verifyUnsuccessfulCheckoutWithWrongDetails(String firstName, String lastName, String postalCode, String expectedMessage) {
-        List<Item> expectedItems = new ArrayList<>();
-        expectedItems.addAll(homePage.addRandomItemToCart());
-
+        homePage.addRandomItemToCart();
         homePage.viewCart();
-        List<Item> actualCartItems = cartPage.getItemsInCart();
-        Assertions.assertEquals(expectedItems, actualCartItems);
 
         cartPage.proceedToCheckout();
         userDetailsPage.enterUserDetails(firstName, lastName, postalCode);

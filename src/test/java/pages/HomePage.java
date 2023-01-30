@@ -80,30 +80,26 @@ public class HomePage {
         return items;
     }
 
-    public List<Item> addRandomItemToCart() {
-        List<Item> items = new ArrayList<>();
-        List<WebElement> elements = driver.findElements(INVENTORY_ITEM);
-        List<Item> itemsList = getItemsList();
+    public Item addRandomItemToCart() {
+        List<WebElement> items = driver.findElements(INVENTORY_ITEM);
         Random random = new Random();
-        Double itemPrice = itemsList.get(random.nextInt(itemsList.size())).getPrice();
-
-        for (WebElement element : elements) {
-            WebElement price = element.findElement(INVENTORY_ITEM_PRICE);
-            if (element.findElement(ADD_TO_CART_BUTTON).getText().contains("REMOVE")) {
+        WebElement randomItem = items.get(random.nextInt(items.size()));
+        Item addedItem = null;
+        for (WebElement item : items) {
+            if (randomItem.findElement(ADD_TO_CART_BUTTON).getText().equals("REMOVE")) {
                 continue;
             }
-            if (price.getText().replace("$", "").equals(itemPrice.toString())) {
 
-                element.findElement(ADD_TO_CART_BUTTON).click();
-                double productPrice = Double.parseDouble(element.findElement(INVENTORY_ITEM_PRICE).getText().replace("$", ""));
-                String productName = element.findElement(INVENTORY_ITEM_NAME).getText();
-                String productDesc = element.findElement(INVENTORY_ITEM_DESCRIPTION).getText();
-                Item item = new Item(productName, productDesc, productPrice);
-                items.add(item);
+
+            if (randomItem.findElement(ADD_TO_CART_BUTTON).getText().equals("ADD TO CART")) {
+                randomItem.findElement(ADD_TO_CART_BUTTON).click();
+                double productPrice = Double.parseDouble(randomItem.findElement(INVENTORY_ITEM_PRICE).getText().replace("$", ""));
+                String productName = randomItem.findElement(INVENTORY_ITEM_NAME).getText();
+                String productDesc = randomItem.findElement(INVENTORY_ITEM_DESCRIPTION).getText();
+                addedItem = new Item(productName, productDesc, productPrice);
                 break;
             }
-
         }
-        return items;
+        return addedItem;
     }
 }
