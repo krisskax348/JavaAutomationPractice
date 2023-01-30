@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class HomePage {
     private WebDriver driver;
@@ -78,5 +79,31 @@ public class HomePage {
         }
         return items;
     }
-}
 
+    public List<Item> addRandomItemToCart() {
+        List<Item> items = new ArrayList<>();
+        List<WebElement> elements = driver.findElements(INVENTORY_ITEM);
+        List<Item> itemsList = getItemsList();
+        Random random = new Random();
+        Double itemPrice = itemsList.get(random.nextInt(itemsList.size())).getPrice();
+
+        for (WebElement element : elements) {
+            WebElement price = element.findElement(INVENTORY_ITEM_PRICE);
+            if (element.findElement(ADD_TO_CART_BUTTON).getText().contains("REMOVE")) {
+                continue;
+            }
+            if (price.getText().replace("$", "").equals(itemPrice.toString())) {
+
+                element.findElement(ADD_TO_CART_BUTTON).click();
+                double productPrice = Double.parseDouble(element.findElement(INVENTORY_ITEM_PRICE).getText().replace("$", ""));
+                String productName = element.findElement(INVENTORY_ITEM_NAME).getText();
+                String productDesc = element.findElement(INVENTORY_ITEM_DESCRIPTION).getText();
+                Item item = new Item(productName, productDesc, productPrice);
+                items.add(item);
+                break;
+            }
+
+        }
+        return items;
+    }
+}

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import pages.HomePage;
 import pages.LoginPage;
 import tests.BaseTest;
-
 import java.util.Comparator;
 import java.util.List;
 

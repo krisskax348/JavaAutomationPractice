@@ -7,10 +7,11 @@ public class CompleteOrderPage {
     private WebDriver driver;
     private static final By CONFIRMATION_HEADER = By.xpath("//h2[@class=\"complete-header\"]");
 
-    public CompleteOrderPage(WebDriver driver){
+    public CompleteOrderPage(WebDriver driver) {
         this.driver = driver;
     }
-    public String getConfirmationText(){
+
+    public String getConfirmationText() {
         return driver.findElement(CONFIRMATION_HEADER).getText();
     }
 }
