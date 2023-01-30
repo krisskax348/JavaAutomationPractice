@@ -1,6 +1,7 @@
 package tests.ShopTests;
 
 import com.endava.models.Item;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,8 +47,12 @@ public class TestSuccessfulOrder extends BaseTest {
         Assertions.assertEquals(expectedProducts, actualProducts);
 
         cartPage.proceedToCheckout();
+        Faker faker = new Faker();
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String postalCode = faker.address().zipCode();
 
-        userDetailsPage.enterUserDetails("Krisi", "Teneva", "6000");
+        userDetailsPage.enterUserDetails(firstName, lastName, postalCode);
         finalizingOrderPage.finishOrder();
 
         String actual = completeOrderPage.getConfirmationText();

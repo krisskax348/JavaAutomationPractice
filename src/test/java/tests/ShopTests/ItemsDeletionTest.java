@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.devtools.v85.page.Page;
 import pages.*;
 import tests.BaseTest;
 
@@ -15,6 +16,7 @@ public class ItemsDeletionTest extends BaseTest {
     private LoginPage loginPage;
     private HomePage homePage;
     private CartPage cartPage;
+    private PageHeader pageHeader;
 
     @BeforeEach
     public void setup() {
@@ -22,6 +24,7 @@ public class ItemsDeletionTest extends BaseTest {
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
         cartPage = new CartPage(driver);
+        pageHeader = new PageHeader(driver);
         loginPage.openPage();
         loginPage.userLogin(LoginPage.USERNAME, LoginPage.PASSWORD);
     }
@@ -29,13 +32,13 @@ public class ItemsDeletionTest extends BaseTest {
     @Test
     public void verifyItemsInCartAreDeleted() {
         List<Item> expectedItems = new ArrayList<>();
-        expectedItems.addAll(homePage.addRandomItemToCart());
+        expectedItems.add(homePage.addRandomItemToCart());
 
         homePage.viewCart();
         List<Item> actualCartItems = cartPage.getItemsInCart();
         Assertions.assertEquals(expectedItems, actualCartItems);
 
-        cartPage.deleteCartItem(0);
-        Assertions.assertFalse(cartPage.isIconPresent(), "Icon is present");
+        cartPage.removeCartItem(0);
+        Assertions.assertFalse(pageHeader.isCartItemsIconPresent(), "Icon is present");
     }
 }
