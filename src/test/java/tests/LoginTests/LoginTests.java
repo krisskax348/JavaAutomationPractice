@@ -1,5 +1,6 @@
 package tests.LoginTests;
 
+import actions.LoggedUserActions;
 import actions.UnauthenticatedUserActions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,12 +10,14 @@ import tests.BaseTest;
 
 public class LoginTests extends BaseTest {
     private UnauthenticatedUserActions unauthenticatedUserActions;
+    private LoggedUserActions userActions;
 
 
     @BeforeEach
     public void setup() {
         driverSetup();
         unauthenticatedUserActions = new UnauthenticatedUserActions(driver);
+        userActions = new LoggedUserActions(driver);
         unauthenticatedUserActions.openPage(LoginPage.BASE_URL);
 
     }
@@ -22,7 +25,7 @@ public class LoginTests extends BaseTest {
     @Test
     public void verifySuccessfulUserLogin() {
         unauthenticatedUserActions.login(LoginPage.USERNAME, LoginPage.PASSWORD);
-        String actualTitle = unauthenticatedUserActions.getMessage(LoginPage.PRODUCTS_TITLE);
+        String actualTitle = userActions.getMessage(LoginPage.PRODUCTS_TITLE);
         String expectedTitle = "PRODUCTS";
         Assertions.assertEquals(expectedTitle, actualTitle);
     }
