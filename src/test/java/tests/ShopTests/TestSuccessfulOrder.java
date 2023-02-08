@@ -1,61 +1,51 @@
 package tests.ShopTests;
 
+import actions.LoggedUserActions;
+import actions.UnauthenticatedUserActions;
 import com.endava.models.Item;
-import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.*;
 import tests.BaseTest;
-
 import java.util.*;
 
 public class TestSuccessfulOrder extends BaseTest {
-    private LoginPage loginPage;
-    private HomePage homePage;
-    private CartPage cartPage;
-    private UserDetailsPage userDetailsPage;
-    private FinalizingOrderPage finalizingOrderPage;
-    private CompleteOrderPage completeOrderPage;
+
+    private UnauthenticatedUserActions unauthenticatedUserActions;
+    private LoggedUserActions userActions;
+
 
     @BeforeEach
     public void setup() {
         driverSetup();
-        loginPage = new LoginPage(driver);
-        homePage = new HomePage(driver);
-        cartPage = new CartPage(driver);
-        userDetailsPage = new UserDetailsPage(driver);
-        finalizingOrderPage = new FinalizingOrderPage(driver);
-        completeOrderPage = new CompleteOrderPage(driver);
-        loginPage.openPage();
-        loginPage.userLogin(LoginPage.USERNAME, LoginPage.PASSWORD);
+        unauthenticatedUserActions = new UnauthenticatedUserActions(driver);
+        userActions = new LoggedUserActions(driver);
+        unauthenticatedUserActions.openPage(LoginPage.BASE_URL);
+        unauthenticatedUserActions.login(LoginPage.USERNAME, LoginPage.PASSWORD);
     }
 
     @Test
     public void verifySuccessfulOrder() {
         List<Item> expectedProducts = new ArrayList<>();
-        List<Item> unsortedItemList = homePage.getItemsList();
+        List<Item> unsortedItemList = userActions.getItems(HomePage.INVENTORY_ITEM, HomePage.INVENTORY_ITEM_NAME, HomePage.INVENTORY_ITEM_PRICE,HomePage.INVENTORY_ITEM_DESCRIPTION);
         unsortedItemList.sort(Comparator.comparing(Item::getPrice));
         Random random = new Random();
         Item i1 = unsortedItemList.get(random.nextInt(unsortedItemList.size()));
         Double lowestPrice = i1.getPrice();
 
-        expectedProducts.addAll(homePage.chooseItemByValue(lowestPrice));
+        expectedProducts.addAll(userActions.chooseItemByValue(lowestPrice));
 
-        homePage.viewCart();
-        List<Item> actualProducts = cartPage.getItemsInCart();
+        userActions.clickOnButton(HomePage.SHOPPING_CART);
+        List<Item> actualProducts = userActions.getItems(CartPage.CART_ITEM, CartPage.CART_ITEM_NAME, CartPage.CART_ITEM_PRICE, CartPage.CART_ITEM_DESCRIPTION);
         Assertions.assertEquals(expectedProducts, actualProducts);
+        userActions.clickOnButton(CartPage.CHECKOUT_BUTTON);
 
-        cartPage.proceedToCheckout();
-        Faker faker = new Faker();
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
-        String postalCode = faker.address().zipCode();
+        userActions.fillOutOrderDetails();
 
-        userDetailsPage.enterUserDetails(firstName, lastName, postalCode);
-        finalizingOrderPage.finishOrder();
+        userActions.clickOnButton(FinalizingOrderPage.FINISH_ORDER_BUTTON);
 
-        String actual = completeOrderPage.getConfirmationText();
+        String actual = userActions.getMessage(CompleteOrderPage.CONFIRMATION_HEADER);
         Assertions.assertEquals("THANK YOU FOR YOUR ORDER", actual);
     }
 }

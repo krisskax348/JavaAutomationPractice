@@ -1,27 +1,20 @@
 package pages;
 
-import com.endava.models.Item;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class HomePage {
     private WebDriver driver;
 
-    private static final By SHOPPING_CART = By.className("shopping_cart_link");
-    private static final By BACKPACK_ADD_BUTTON = By.id("add-to-cart-sauce-labs-backpack");
-    private static final By BIKE_LIGHT_CART_ADD_BUTTON = By.id("add-to-cart-sauce-labs-bike-light");
-    private static final By INVENTORY_ITEM = By.cssSelector(".inventory_item");
-    private static final By INVENTORY_ITEM_PRICE = By.cssSelector(".inventory_item_price");
-    private static final By INVENTORY_ITEM_NAME = By.cssSelector(".inventory_item_name");
-    private static final By INVENTORY_ITEM_DESCRIPTION = By.cssSelector(".inventory_item_desc");
-    private static final By ADD_TO_CART_BUTTON = By.cssSelector(".pricebar > button");
-    private static final By FILTER_MENU = By.className("product_sort_container");
+    public static final By SHOPPING_CART = By.className("shopping_cart_link");
+    public static final By BACKPACK_ADD_BUTTON = By.id("add-to-cart-sauce-labs-backpack");
+    public static final By BIKE_LIGHT_CART_ADD_BUTTON = By.id("add-to-cart-sauce-labs-bike-light");
+    public static final By INVENTORY_ITEM = By.cssSelector(".inventory_item");
+    public static final By INVENTORY_ITEM_PRICE = By.cssSelector(".inventory_item_price");
+    public static final By INVENTORY_ITEM_NAME = By.cssSelector(".inventory_item_name");
+    public static final By INVENTORY_ITEM_DESCRIPTION = By.cssSelector(".inventory_item_desc");
+    public static final By ADD_TO_CART_BUTTON = By.cssSelector(".pricebar > button");
+    public static final By FILTER_MENU = By.className("product_sort_container");
     public static final String ASCENDING_PRICE = "lohi";
     public static final String DESCENDING_PRICE = "hilo";
     public static final String ALPHABETIC_ORDER = "az";
@@ -32,74 +25,4 @@ public class HomePage {
         this.driver = driver;
     }
 
-    public void selectItems() {
-        driver.findElement(BACKPACK_ADD_BUTTON).click();
-        driver.findElement(BIKE_LIGHT_CART_ADD_BUTTON).click();
-    }
-
-    public void viewCart() {
-        driver.findElement(SHOPPING_CART).click();
-    }
-
-    public void applyFilter(String value) {
-        Select select = new Select(driver.findElement(FILTER_MENU));
-        select.selectByValue(value);
-    }
-
-    public List<Item> chooseItemByValue(Double value) {
-        List<Item> items = new ArrayList<>();
-        List<WebElement> elements = driver.findElements(INVENTORY_ITEM);
-
-        for (WebElement element : elements) {
-            WebElement price = element.findElement(INVENTORY_ITEM_PRICE);
-            if (price.getText().contains(value.toString())) {
-
-                element.findElement(ADD_TO_CART_BUTTON).click();
-                double productPrice = Double.parseDouble(element.findElement(INVENTORY_ITEM_PRICE).getText().replace("$", ""));
-                String productName = element.findElement(INVENTORY_ITEM_NAME).getText();
-                String productDesc = element.findElement(INVENTORY_ITEM_DESCRIPTION).getText();
-                Item item = new Item(productName, productDesc, productPrice);
-                items.add(item);
-                break;
-
-            }
-        }
-        return items;
-    }
-
-    public List<Item> getItemsList() {
-        List<Item> items = new ArrayList<>();
-        List<WebElement> elements = driver.findElements(INVENTORY_ITEM);
-        for (WebElement element : elements) {
-            String name = element.findElement(INVENTORY_ITEM_NAME).getText();
-            double price = Double.parseDouble(element.findElement(INVENTORY_ITEM_PRICE).getText().replace("$", ""));
-            String desc = element.findElement(INVENTORY_ITEM_DESCRIPTION).getText();
-            Item item = new Item(name, desc, price);
-            items.add(item);
-        }
-        return items;
-    }
-
-    public Item addRandomItemToCart() {
-        List<WebElement> items = driver.findElements(INVENTORY_ITEM);
-        Random random = new Random();
-        WebElement randomItem = items.get(random.nextInt(items.size()));
-        Item addedItem = null;
-        for (WebElement item : items) {
-            if (randomItem.findElement(ADD_TO_CART_BUTTON).getText().equals("REMOVE")) {
-                continue;
-            }
-
-
-            if (randomItem.findElement(ADD_TO_CART_BUTTON).getText().equals("ADD TO CART")) {
-                randomItem.findElement(ADD_TO_CART_BUTTON).click();
-                double productPrice = Double.parseDouble(randomItem.findElement(INVENTORY_ITEM_PRICE).getText().replace("$", ""));
-                String productName = randomItem.findElement(INVENTORY_ITEM_NAME).getText();
-                String productDesc = randomItem.findElement(INVENTORY_ITEM_DESCRIPTION).getText();
-                addedItem = new Item(productName, productDesc, productPrice);
-                break;
-            }
-        }
-        return addedItem;
-    }
 }

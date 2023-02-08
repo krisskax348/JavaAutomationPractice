@@ -1,5 +1,7 @@
 package tests.ShopTests;
 
+import actions.LoggedUserActions;
+import actions.UnauthenticatedUserActions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,20 +10,17 @@ import pages.*;
 import tests.BaseTest;
 
 public class CheckoutUserDetailsTests extends BaseTest {
-    private LoginPage loginPage;
-    private HomePage homePage;
-    private CartPage cartPage;
-    private UserDetailsPage userDetailsPage;
+    private UnauthenticatedUserActions unauthenticatedUserActions;
+    private LoggedUserActions userActions;
 
     @BeforeEach
     public void setup() {
         driverSetup();
-        loginPage = new LoginPage(driver);
-        homePage = new HomePage(driver);
-        cartPage = new CartPage(driver);
-        userDetailsPage = new UserDetailsPage(driver);
-        loginPage.openPage();
-        loginPage.userLogin(LoginPage.USERNAME, LoginPage.PASSWORD);
+        unauthenticatedUserActions = new UnauthenticatedUserActions(driver);
+        userActions = new LoggedUserActions(driver);
+
+        unauthenticatedUserActions.openPage(LoginPage.BASE_URL);
+        unauthenticatedUserActions.login(LoginPage.USERNAME, LoginPage.PASSWORD);
     }
 
     @ParameterizedTest(name = "{index}: firstName=''{0}'' lastName=''{1}'' postalCode =''{2}''")
@@ -31,13 +30,16 @@ public class CheckoutUserDetailsTests extends BaseTest {
             "'', Teneva, 6000, Error: First Name is required"
     })
     void verifyUnsuccessfulCheckoutWithWrongDetails(String firstName, String lastName, String postalCode, String expectedMessage) {
-        homePage.addRandomItemToCart();
-        homePage.viewCart();
+        userActions.addRandomItemToCart();
+        userActions.clickOnButton(HomePage.SHOPPING_CART);
 
-        cartPage.proceedToCheckout();
-        userDetailsPage.enterUserDetails(firstName, lastName, postalCode);
+        userActions.clickOnButton(CartPage.CHECKOUT_BUTTON);
+        userActions.enterText(UserDetailsPage.FIRST_NAME, firstName);
+        userActions.enterText(UserDetailsPage.LAST_NAME, lastName);
+        userActions.enterText(UserDetailsPage.POSTAL_CODE, postalCode);
+        userActions.clickOnButton(UserDetailsPage.CONTINUE_BUTTON);
 
-        String actualMessage = userDetailsPage.getWrongUserDetailsMessage();
+        String actualMessage = userActions.getMessage(UserDetailsPage.ERROR_MESSAGE_USER_DETAILS);
         Assertions.assertEquals(expectedMessage, actualMessage);
     }
 }
