@@ -1,5 +1,6 @@
 package tests.LoginTests;
 
+import actions.UnauthenticatedUserActions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,12 +9,13 @@ import pages.LoginPage;
 import tests.BaseTest;
 
 public class ParameterizedTests extends BaseTest {
-    private LoginPage loginPage;
+    private UnauthenticatedUserActions unauthenticatedUserActions;
 
     @BeforeEach
     public void setup() {
         driverSetup();
-        loginPage = new LoginPage(driver);
+        unauthenticatedUserActions = new UnauthenticatedUserActions(driver);
+        unauthenticatedUserActions.openPage(LoginPage.BASE_URL);
     }
 
     @ParameterizedTest(name = "{index}: username=''{0}'' password=''{1}''")
@@ -24,9 +26,8 @@ public class ParameterizedTests extends BaseTest {
             "standard_user, '', Epic sadface: Password is required"
     })
     void verifyUnsuccessfulLoginWithWrongCredentials(String username, String password, String expectedMessage) {
-        loginPage.openPage();
-        loginPage.userLogin(username, password);
-        String actualMessage = loginPage.getWrongCredentialsMessage();
+        unauthenticatedUserActions.login(username, password);
+        String actualMessage = unauthenticatedUserActions.getMessage(LoginPage.ERROR_MESSAGE_LOGIN);
         Assertions.assertEquals(expectedMessage, actualMessage);
     }
 }
