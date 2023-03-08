@@ -1,55 +1,37 @@
 package tests.RestTests;
 
-import io.restassured.RestAssured;
-import io.restassured.path.json.JsonPath;
+import com.endava.models.LoginCredentials;
+import restActions.LoginRestActions;
 import io.restassured.response.Response;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.RestAssured.given;
-
 public class LoginTests {
-    @BeforeAll
-    public static void setup() {
-        RestAssured.baseURI = "https://reqres.in/api";
+    private LoginRestActions loginRestActions;
+
+
+    @BeforeEach
+    public void setup() {
+        loginRestActions = new LoginRestActions();
     }
 
     @Test
     public void verifySuccessfulLogin() {
-        JSONObject jsonObj = new JSONObject()
-                .put("email", "eve.holt@reqres.in")
-                .put("password", "cityslicka");
+        LoginCredentials credentials = new LoginCredentials();
+        credentials.setEmail("eve.holt@reqres.in");
+        credentials.setPassword("cityslicka");
+        Response response = loginRestActions.sendLoginRequest(credentials);
 
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(jsonObj.toString())
-                .when()
-                .post("/login")
-                .then().log().body()
-                .extract().response();
-
-        Assertions.assertEquals(200, response.statusCode());
-        JsonPath jsonPathEvaluator = response.jsonPath();
-        String token = jsonPathEvaluator.get("token");
+        Assertions.assertTrue(response.body().asString().contains("token"));
     }
 
     @Test
     public void verifyUnsuccessfulLogin() {
-        JSONObject jsonObj = new JSONObject()
-                .put("email", "eve.holt@reqRes.in")
-                .put("password", "");
-
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(jsonObj.toString())
-                .when()
-                .post("/login")
-                .then().log().body()
-                .extract().response();
+        LoginCredentials credentials = new LoginCredentials();
+        credentials.setEmail("eve.holt@reqres.in");
+        credentials.setPassword("");
+        Response response = loginRestActions.sendUnsuccessfulLoginRequest(credentials);
 
         Assertions.assertEquals(400, response.statusCode());
         Assertions.assertEquals("Missing password", response.jsonPath().getString("error"));
