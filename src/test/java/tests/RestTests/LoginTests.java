@@ -22,6 +22,7 @@ public class LoginTests {
         credentials.setEmail("eve.holt@reqres.in");
         credentials.setPassword("cityslicka");
         Response response = loginRestActions.sendLoginRequest(credentials);
+        Assertions.assertEquals(200, response.statusCode());
 
         Assertions.assertTrue(response.body().asString().contains("token"));
     }
