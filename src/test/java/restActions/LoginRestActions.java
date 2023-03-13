@@ -6,12 +6,12 @@ public class LoginRestActions extends BaseRestActions {
 
     public Response sendLoginRequest(Object credentials) {
 
-        return postResource(credentials, "login", 200);
+        return post(credentials, "login");
 
     }
 
     public Response sendUnsuccessfulLoginRequest(Object credentials) {
-        return postResource(credentials, "login", 400);
+        return post(credentials, "login");
 
     }
 }

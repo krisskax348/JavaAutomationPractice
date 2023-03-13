@@ -18,50 +18,47 @@ public abstract class BaseRestActions {
 
     }
 
-    public void getResource(String resource, int responseCode) {
+    public Response get(String resource) {
 
-        getRequestSpecification()
-                .contentType(ContentType.JSON)
+        return getRequestSpecification()
                 .when()
                 .get(resource)
                 .then()
                 .log().body()
-                .statusCode(responseCode);
+                .extract().response();
 
     }
 
-    public Response postResource(Object requestBody, String resource, int responseCode) {
+    public Response post(Object requestBody, String resource) {
         return getRequestSpecification()
                 .contentType(ContentType.JSON)
                 .body(requestBody)
                 .when()
                 .post(resource)
                 .then().log().body()
-                .statusCode(responseCode)
                 .extract().response();
 
     }
-    public Response putResource(Object requestBody, String resource, int responseCode) {
+
+    public Response put(Object requestBody, String resource) {
         return getRequestSpecification()
                 .contentType(ContentType.JSON)
                 .body(requestBody)
                 .when()
                 .put(resource)
                 .then().log().body()
-                .statusCode(responseCode)
                 .extract().response();
 
     }
-    public void deleteResource(String resource, int responseCode) {
 
-        getRequestSpecification()
-                .contentType(ContentType.JSON)
+    public Response delete(String resource) {
+
+        return getRequestSpecification()
                 .when()
                 .delete(resource)
                 .then()
                 .log().body()
-                .statusCode(responseCode);
+                .extract().response();
 
     }
-
 }
